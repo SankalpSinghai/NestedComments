@@ -10,7 +10,6 @@ function App({ commentData, setComments }) {
   const [comment, setComment] = useState("");
 
   const handleReply = () => {
-    console.log('Got called!');
     setReplyComment(prev => !prev);
   }
 
@@ -26,7 +25,7 @@ function App({ commentData, setComments }) {
     //TODO 
     const data = deleteCommentData(commentId, commentData)
     console.log(data);
-
+    setComments({ ...data })
   }
 
   const addComment = (commentId, comment, commentData) => {
@@ -40,6 +39,7 @@ function App({ commentData, setComments }) {
     const data = editCommentData(commentId, comment, commentData)
     console.log(data);
     setComments({ ...data })
+    handleEdit();
   }
 
   return (
@@ -71,7 +71,7 @@ function App({ commentData, setComments }) {
                 replyComment={replyComment}
                 handleReply={handleReply}
                 handleEdit={handleEdit}
-                handleDelete={handleDelete}
+                handleDelete={() => { handleDelete(commentData.commentId, commentData) }}
                 commentHandler={handleChange}
                 comment={comment}
                 addComment={() => { addComment(commentData.commentId, comment, commentData) }}
@@ -91,7 +91,7 @@ function App({ commentData, setComments }) {
         )}
       </>
       {commentData?.comments?.map((comment) => {
-        return <App commentData={comment} setComments={setComments}/>
+        return <App commentData={comment} setComments={setComments} />
       })}
     </div>
   )
